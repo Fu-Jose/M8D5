@@ -1,0 +1,117 @@
+components:
+  schemas:
+    accomodation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        maxGuests:
+          type: number
+        city:
+          type: string
+    schema:
+      type: array
+      items:
+        $ref: "#/components/schemas/accomodation"
+    accomodationId:
+      type: string
+servers:
+  - description: ""
+    url: http://localhost:3000
+openapi: 3.0.3
+paths:
+  "/accomodation":
+    get:
+      description: Returns a list of accomodations
+      operationId: getAccomodations
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/schema"
+  "/accomodation/{accomodationId}":
+    get:
+      description: Returns details about the accomodation
+      operationId: getDetails
+      parameters:
+        - schema:
+            $ref: "#/components/schemas/accomodationId"
+          in: path
+          name: accomodationId
+          required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/accomodation"
+        "400":
+          description: The room doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      description: This operation adds a new accomodation
+      operationId: addAccomodation
+      parameters:
+        - schema:
+            $ref: "#/components/schemas/accomodationId"
+          in: path
+          name: accomodationId
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/accomodation"
+      responses:
+        "201":
+          description: Correctly added
+        "400":
+          description: Invalid data
+    put:
+      description: This operation edits an accomodation
+      operationId: editAccomodation
+      parameters:
+        - schema:
+            $ref: "#/components/schemas/accomodationId"
+          in: path
+          name: accomodationId
+          required: true
+      responses:
+        "204":
+          description: Correctly edited
+    delete:
+      description: This operation deletes an accomodation
+      operationId: deleteAccomodation
+      parameters:
+        - schema:
+            $ref: "#/components/schemas/accomodationId"
+          in: path
+          name: accomodationId
+          required: true
+      responses:
+        "204":
+          description: Correctly deleted
+        "440":
+          description: Accomodation doesn't exist
+info:
+  title: Trivago Api
+  description: API for accomodations info.
+  version: 1.0.0
