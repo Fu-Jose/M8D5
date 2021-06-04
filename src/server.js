@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import AccomodationRouter from "./services/index";
+import AccomodationRouter from "../src/services/index.js";
 
 const server = express();
 server.use(express.json());

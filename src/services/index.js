@@ -1,5 +1,5 @@
 import express from "express";
-import AccomodationModel from "../../models/index.js";
+import AccomodationModel from "../models/index.js";
 
 const { Router } = express;
 
@@ -17,10 +17,10 @@ AccomodationRouter.post("/", async (req, res) => {
     if (!id || !name || !description || !maxGuests || !city)
       throw new Error("Invalid data");
 
-    const product = new ProductModel({ description, price });
-    await product.save();
+    const data = new ProductModel({ id, name, description, maxGuests, city });
+    await data.save();
 
-    res.status(201).send(product);
+    res.status(201).send(data);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
